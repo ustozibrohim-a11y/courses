@@ -120,3 +120,10 @@ SIMPLE_JWT = {
 LOGIN_URL = '/login/'
 LOGIN_REDIRECT_URL = '/dashboard/'
 LOGOUT_REDIRECT_URL = '/'
+
+SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+
+CSRF_TRUSTED_ORIGINS = [
+    "https://edunest.b26.uz",
+    "https://www.edunest.b26.uz",
+]
