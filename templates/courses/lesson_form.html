@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block title %}{% if is_edit %}Darsni tahrirlash{% else %}Dars qo'shish{% endif %} – Online Kurs{% endblock %}
+
+{% block content %}
+<nav aria-label="breadcrumb" class="mb-3">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{% url 'course_detail' course.pk %}">{{ course.name }}</a></li>
+        <li class="breadcrumb-item active">{% if is_edit %}Tahrirlash{% else %}Dars qo'shish{% endif %}</li>
+    </ol>
+</nav>
+<h1 class="mb-4">{% if is_edit %}Darsni tahrirlash{% else %}Dars qo'shish{% endif %}</h1>
+<form method="post" class="card p-4" style="max-width: 700px;">
+    {% csrf_token %}
+    <div class="mb-3">
+        <label for="title" class="form-label">Dars nomi *</label>
+        <input type="text" class="form-control" id="title" name="title" value="{% if lesson %}{{ lesson.title }}{% else %}{{ title|default:'' }}{% endif %}" required>
+    </div>
+    <div class="mb-3">
+        <label for="content" class="form-label">Mazmuni</label>
+        <textarea class="form-control" id="content" name="content" rows="6">{% if lesson %}{{ lesson.content }}{% else %}{{ content|default:'' }}{% endif %}</textarea>
+    </div>
+    <div class="mb-3">
+        <label for="order" class="form-label">Tartib raqami</label>
+        <input type="number" class="form-control" id="order" name="order" value="{% if lesson %}{{ lesson.order }}{% else %}{{ order|default:0 }}{% endif %}" min="0">
+    </div>
+    <button type="submit" class="btn btn-primary">{% if is_edit %}Saqlash{% else %}Qo'shish{% endif %}</button>
+    <a href="{% url 'course_detail' course.pk %}" class="btn btn-outline-secondary">Bekor qilish</a>
+</form>
+{% endblock %}

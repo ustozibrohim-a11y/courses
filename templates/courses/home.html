@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% block title %}Bosh sahifa – Online Kurs{% endblock %}
+
+{% block content %}
+<div class="text-center py-5">
+    <h1 class="display-5 fw-bold mb-3">Online Kurs Platformasi</h1>
+    <p class="lead text-muted mx-auto" style="max-width: 600px;">
+        Ushbu platforma orqali siz turli kurslarni ko'rishingiz, ularga yozilishingiz va o'qituvchilar bilan bog'lanishingiz mumkin.
+    </p>
+</div>
+
+<section class="mb-5">
+    <h2 class="h4 mb-4">Aktiv kurslar</h2>
+    {% if courses %}
+        <div class="row g-4">
+            {% for course in courses %}
+                <div class="col-md-6 col-lg-4">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ course.name }}</h5>
+                            <p class="card-text text-muted small">{{ course.description|truncatewords:15|default:"Tavsif yo'q" }}</p>
+                            <p class="small text-muted mb-2">
+                                <i class="bi bi-person"></i> {{ course.teacher.get_full_name|default:course.teacher.username }}
+                            </p>
+                            <a href="{% url 'course_detail' course.pk %}" class="btn btn-primary btn-sm">Kursga o'tish</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p class="text-muted">Hozircha aktiv kurslar yo'q.</p>
+    {% endif %}
+</section>
+{% endblock %}

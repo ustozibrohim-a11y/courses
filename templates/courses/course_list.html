@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block title %}Kurslar – Online Kurs{% endblock %}
+
+{% block content %}
+<h1 class="mb-4">Barcha kurslar</h1>
+{% if courses %}
+    <div class="row g-4">
+        {% for course in courses %}
+            <div class="col-md-6 col-lg-4">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ course.name }}</h5>
+                        <p class="card-text text-muted small">{{ course.description|truncatewords:20|default:"Tavsif yo'q" }}</p>
+                        <p class="small text-muted mb-2">O'quvchi: {{ course.enrollments.count }}</p>
+                        <p class="small text-muted mb-2">
+                            <i class="bi bi-person-fill"></i> O'qituvchi: {{ course.teacher.get_full_name|default:course.teacher.username }}
+                        </p>
+                        <a href="{% url 'course_detail' course.pk %}" class="btn btn-primary btn-sm">Batafsil</a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% else %}
+    <p class="text-muted">Kurslar topilmadi.</p>
+{% endif %}
+{% endblock %}

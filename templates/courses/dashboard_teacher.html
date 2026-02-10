@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block title %}Dashboard – Online Kurs{% endblock %}
+
+{% block content %}
+<h1 class="mb-4">Shaxsiy kabinet <small class="text-muted">(O'qituvchi)</small></h1>
+<p class="text-muted">Yaratilgan kurslar va darslarni boshqarish.</p>
+<p><a href="{% url 'course_create' %}" class="btn btn-success"><i class="bi bi-plus-lg"></i> Yangi kurs</a></p>
+{% if courses %}
+    <div class="row g-4">
+        {% for course in courses %}
+            <div class="col-md-6 col-lg-4">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ course.name }}</h5>
+                        <p class="card-text text-muted small">{{ course.description|truncatewords:12|default:"—" }}</p>
+                        <p class="small text-muted mb-2">Darslar: {{ course.lessons.count }} ta</p>
+                        <a href="{% url 'course_detail' course.pk %}" class="btn btn-primary btn-sm">Boshqarish</a>
+                        <a href="{% url 'course_edit' course.pk %}" class="btn btn-outline-secondary btn-sm">Tahrirlash</a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% else %}
+    <p class="text-muted">Sizda hali kurs yo'q. "Yangi kurs" tugmasini bosing.</p>
+{% endif %}
+{% endblock %}

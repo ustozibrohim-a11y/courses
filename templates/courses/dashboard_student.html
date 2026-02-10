@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block title %}Dashboard – Online Kurs{% endblock %}
+
+{% block content %}
+<h1 class="mb-4">Shaxsiy kabinet <small class="text-muted">(Talaba)</small></h1>
+<p class="text-muted">Sizga yozilgan kurslar.</p>
+{% if enrollments %}
+    <div class="row g-4">
+        {% for enr in enrollments %}
+            <div class="col-md-6 col-lg-4">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ enr.course.name }}</h5>
+                        <p class="card-text text-muted small">{{ enr.course.description|truncatewords:12|default:"—" }}</p>
+                        <p class="small text-muted mb-2">O'qituvchi: {{ enr.course.teacher.get_full_name|default:enr.course.teacher.username }}</p>
+                        <a href="{% url 'course_detail' enr.course.pk %}" class="btn btn-primary btn-sm">Kursga o'tish</a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% else %}
+    <p class="text-muted">Siz hali hech qanday kursga yozilmagansiz. <a href="{% url 'course_list' %}">Kurslar</a> sahifasidan tanlang.</p>
+{% endif %}
+{% endblock %}

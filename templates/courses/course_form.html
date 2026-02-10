@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block title %}{% if is_edit %}Kursni tahrirlash{% else %}Yangi kurs{% endif %} – Online Kurs{% endblock %}
+
+{% block content %}
+<h1 class="mb-4">{% if is_edit %}Kursni tahrirlash{% else %}Yangi kurs yaratish{% endif %}</h1>
+<form method="post" class="card p-4" style="max-width: 600px;">
+    {% csrf_token %}
+    <div class="mb-3">
+        <label for="name" class="form-label">Kurs nomi *</label>
+        <input type="text" class="form-control" id="name" name="name" value="{% if course %}{{ course.name }}{% else %}{{ name|default:'' }}{% endif %}" required>
+    </div>
+    <div class="mb-3">
+        <label for="description" class="form-label">Tavsif</label>
+        <textarea class="form-control" id="description" name="description" rows="4">{% if course %}{{ course.description }}{% else %}{{ description|default:'' }}{% endif %}</textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">{% if is_edit %}Saqlash{% else %}Yaratish{% endif %}</button>
+    <a href="{% if course %}{% url 'course_detail' course.pk %}{% else %}{% url 'dashboard' %}{% endif %}" class="btn btn-outline-secondary">Bekor qilish</a>
+</form>
+{% endblock %}

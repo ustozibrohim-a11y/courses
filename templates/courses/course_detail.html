@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+{% block title %}{{ course.name }} – Online Kurs{% endblock %}
+
+{% block content %}
+<nav aria-label="breadcrumb" class="mb-3">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{% url 'home' %}">Bosh sahifa</a></li>
+        <li class="breadcrumb-item"><a href="{% url 'course_list' %}">Kurslar</a></li>
+        <li class="breadcrumb-item active">{{ course.name }}</li>
+    </ol>
+</nav>
+
+<div class="row">
+    <div class="col-lg-8">
+        <h1>{{ course.name }}</h1>
+        <p class="text-muted">{{ course.description|default:"Tavsif yo'q" }}</p>
+        <p class="small text-muted">
+            <i class="bi bi-person"></i> O'qituvchi: <strong>{{ course.teacher.get_full_name|default:course.teacher.username }}</strong>
+        </p>
+
+        <h3 class="h5 mt-4 mb-3">Darslar</h3>
+        {% if lessons %}
+            <ul class="list-group list-group-flush mb-4">
+                {% for lesson in lessons %}
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <span>{{ forloop.counter }}. {{ lesson.title }}</span>
+                        {% if is_owner %}
+                            <span>
+                                <a href="{% url 'lesson_edit' lesson.pk %}" class="btn btn-outline-secondary btn-sm">Tahrirlash</a>
+                                <form action="{% url 'lesson_delete' lesson.pk %}" method="post" class="d-inline" onsubmit="return confirm('Darsni o\'chirishni xohlaysizmi?');">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-outline-danger btn-sm">O'chirish</button>
+                                </form>
+                            </span>
+                        {% endif %}
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p class="text-muted">Hozircha darslar yo'q.</p>
+        {% endif %}
+
+        {% if is_owner %}
+            <a href="{% url 'lesson_add' course.pk %}" class="btn btn-success"><i class="bi bi-plus-lg"></i> Dars qo'shish</a>
+            <a href="{% url 'course_edit' course.pk %}" class="btn btn-outline-primary">Kursni tahrirlash</a>
+            <a href="{% url 'course_students' course.pk %}" class="btn btn-outline-primary">Talabalar</a>
+        {% endif %}
+    </div>
+    <div class="col-lg-4">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Kurs haqida</h5>
+                <p class="small text-muted mb-0">Qo'shilgan: {{ course.added_at|date:"d.m.Y" }}</p>
+                {% if user.is_authenticated %}
+                    {% if is_owner %}
+                        <p class="mt-2 mb-0 text-primary small">Siz ushbu kursning o'qituvchisisiz.</p>
+                    {% elif user.role == 'Student' %}
+                        {% if enrolled %}
+                            <form action="{% url 'leave' course.pk %}" method="post" class="mt-2">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-outline-warning w-100">Kursdan chiqish</button>
+                            </form>
+                        {% else %}
+                            <form action="{% url 'enroll' course.pk %}" method="post" class="mt-2">
+                                {% csrf_token %}
+                                <label>
+                                    <span>Telefon raqam:</span>
+                                </label>
+                                <input type="text" name="phone" class="form-control mb-2" placeholder="+998 90 000 00 00">
+                                <label>
+                                    Telegram username:
+                                </label>
+                                <input type="text" name="tg" class="form-control mb-2" placeholder="@palonchi">
+                                <button type="submit" class="btn btn-success w-100">Kursga yozilish</button>
+                            </form>
+                        {% endif %}
+                    {% endif %}
+                {% else %}
+                    <p class="mt-2 text-muted small">Kursga yozilish uchun <a href="{% url 'login' %}">tizimga kiring</a>.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

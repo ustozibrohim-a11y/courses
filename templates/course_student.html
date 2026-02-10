@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block title %}Kurslar – Online Kurs{% endblock %}
+
+{% block content %}
+<h1 class="mb-4">Barcha Talabalar</h1>
+{% if object_list %}
+    <div class="row g-4">
+        {% for object in object_list %}
+            <div class="col-md-6 col-lg-4">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ object.student }}</h5>
+                        <p class="card-text text-muted small">Telefon raqam: {{ object.phone }}</p>
+                        <p class="small text-muted mb-2">Telegram: {{ object.tg }}</p>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% else %}
+    <p class="text-muted">Talabalar topilmadi.</p>
+{% endif %}
+{% endblock %}
