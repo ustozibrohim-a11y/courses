@@ -12,7 +12,7 @@ SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'django-insecure-change-in-prod
 
 DEBUG = os.environ.get('DEBUG', 'True').lower() == 'true'
 
-ALLOWED_HOSTS = ["45.138.159.194", "expence-tracker.uz", "www.expence-tracker.uz"]
+ALLOWED_HOSTS = ["45.138.159.194", "edunest.b26.uz", "www.edunest.b26.uz"]
 
 INSTALLED_APPS = [
     'django.contrib.auth',
