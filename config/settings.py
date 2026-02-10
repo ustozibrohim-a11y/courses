@@ -12,7 +12,7 @@ SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'django-insecure-change-in-prod
 
 DEBUG = os.environ.get('DEBUG', 'True').lower() == 'true'
 
-ALLOWED_HOSTS = ["45.138.159.194"]
+ALLOWED_HOSTS = ["45.138.159.194", "expence-tracker.uz", "www.expence-tracker.uz"]
 
 INSTALLED_APPS = [
     'django.contrib.auth',
@@ -72,11 +72,10 @@ DATABASES = {
         "NAME": "courses_db",
         "USER": "postgres",
         "PASSWORD": "123",
-        "HOST": "db",        # service nomi
+        "HOST": "db",  # service nomi
         "PORT": "5432",
     }
 }
-
 
 AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
@@ -95,7 +94,7 @@ STATICFILES_DIRS = [BASE_DIR / 'static'] if (BASE_DIR / 'static').exists() else 
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 DEFAULT_AUTO_FIELD = 'dja' \
-'ngo.db.models.BigAutoField'
+                     'ngo.db.models.BigAutoField'
 
 # Custom User – Admin panel is NOT used
 AUTH_USER_MODEL = 'accounts.User'
